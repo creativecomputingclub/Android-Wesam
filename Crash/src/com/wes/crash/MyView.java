@@ -21,20 +21,37 @@ public class MyView extends View {
 	ArrayList<Bitmap> AR;
 	WinTool wt;
 	
-	int Measuredwidth = wt.getScreenWidth();
-	int padding = bmp.getWidth(); 
+	// **Only declare in class space**, do not assign or do any calculations here
+	// Do it in the constructor
+	//int Measuredwidth = wt.getScreenWidth();
+	//int padding = bmp.getWidth(); 
+	//private int left = (int)(Math.random() * (Measuredwidth - padding)); 
+	private int left;
 	
-	private int left = (int)(Math.random() * (Measuredwidth - padding)); 
-	
-	
-	
+	//constructor
 	public MyView(Context context) {
 		super(context);
+		wt = new WinTool(context);// This is how you create a WinTool object
 		bmp = BitmapFactory.decodeResource(getResources(), 0x7f020000);
-		MT = new MyTimer(5);
+		MT = new MyTimer(5);// Please use com.kc.tools.Timer
 		AR = new ArrayList<Bitmap>();
-		for(int i = 0; i < 30; i++)
+		for(int i = 0; i < 30; i++) {
 			AR.add(bmp);
+			// Adding 30 of the same image to an arraylist?
+		}
+		/*
+		 * This is where Measuredwidth, padding and left should be assigned. like
+		 * Measuredwidth = wt.getScreenWidth();
+		 * 
+		 * **Please NOTE**
+		 * ASSIGNMENT
+		 * var = 10;
+		 * DECLARATION
+		 * int var;
+		 * BOTH
+		 * int var = 10;
+		 */
+		left = 0;
 	}
 	
 	public void onDraw(Canvas C) {
@@ -47,5 +64,16 @@ public class MyView extends View {
 	public void update() {
 		
 	}
+	/*You're missing the Benchmark utility for the game loop
+	 * Take a look at com.kc.main.MainView
+	 * I suggest you move everything in here to there
+	 * 	public void onDraw(Canvas C) {
+		super.onDraw(C);
+		super.postInvalidate();
+		BM.update();
+		Update(BM.getMillisecondsElapsed());
+		Draw(C);
+	}
+	 */
 	
 }

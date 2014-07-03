@@ -1,6 +1,6 @@
 package com.wes.crash;
 
-public class Ball {
+public class Ball extends BaseGameObject{ // I made the super class BGO. Ball now inherits the functionality
 	private int speedX = 0;
 	private int speedY = 0;
 	private boolean falling = true;
