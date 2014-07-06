@@ -1,5 +1,5 @@
 package com.wes.crash;
 
-public class Coin {
+public class Coin extends BaseGameObject {
 
 }

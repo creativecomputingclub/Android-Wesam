@@ -10,22 +10,21 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
-import com.kc.tools.WinTool;;
+import com.kc.tools.WinTool;
+import com.kc.tools.Timer;
 
 public class MyView extends View {
 	
 	Ball ball;
-	MyTimer MT;
-	private Bitmap bmp;
-	ArrayList<Bitmap> AR;
+	Timer MT;
 	WinTool wt;
 	
-	// **Only declare in class space**, do not assign or do any calculations here
-	// Do it in the constructor
-	//int Measuredwidth = wt.getScreenWidth();
-	//int padding = bmp.getWidth(); 
-	//private int left = (int)(Math.random() * (Measuredwidth - padding)); 
+	int padding = 0;
+	int MeasuredWidth = 0;
+	
+	private Bitmap bmp;
 	private int left;
 	
 	//constructor
@@ -33,12 +32,12 @@ public class MyView extends View {
 		super(context);
 		wt = new WinTool(context);// This is how you create a WinTool object
 		bmp = BitmapFactory.decodeResource(getResources(), 0x7f020000);
-		MT = new MyTimer(5);// Please use com.kc.tools.Timer
-		AR = new ArrayList<Bitmap>();
-		for(int i = 0; i < 30; i++) {
-			AR.add(bmp);
-			// Adding 30 of the same image to an arraylist?
-		}
+		MT = new Timer();
+		
+		//making the ball randomly pop on the screen
+		MeasuredWidth = wt.getScreenWidth();
+		padding = bmp.getWidth(); 
+		left = (int)(Math.random() * (MeasuredWidth - padding)); 
 		/*
 		 * This is where Measuredwidth, padding and left should be assigned. like
 		 * Measuredwidth = wt.getScreenWidth();
@@ -51,9 +50,8 @@ public class MyView extends View {
 		 * BOTH
 		 * int var = 10;
 		 */
-		left = 0;
 	}
-	
+
 	public void onDraw(Canvas C) {
 		super.postInvalidate();
 		Log.i("key", "Draw");
