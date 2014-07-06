@@ -1,25 +1,20 @@
 package com.kc.main;
 
-import android.R;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
-import android.util.Log;
 import android.view.View;
 
 import com.kc.inter.Drawable;
 import com.kc.inter.Updatable;
 import com.kc.tools.Animator;
 import com.kc.tools.Benchmark;
-import com.kc.tools.BitmapBreaker;
-import com.kc.tools.WinTool;
 import com.kc.tools.Timer;
+import com.kc.tools.WinTool;
 import com.wes.crash.Ball;
 import com.wes.crash.BaseGameObject;
-
+import com.example.crash.*;
 public class MainView extends View implements Updatable, Drawable{
 	Benchmark BM;
 	WinTool WT;
@@ -41,8 +36,8 @@ public class MainView extends View implements Updatable, Drawable{
 		super(C);
 		BM = new Benchmark();
 		WT = new WinTool(C);
-		BB = BitmapFactory.decodeResource(this.getResources(), 0x7f020001);
-		bmp = BitmapFactory.decodeResource(this.getResources(), 0x7f020004);
+		BB = BitmapFactory.decodeResource(this.getResources(), R.drawable.cat);
+		bmp = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		padding = bmp.getWidth(); 
 		BG = new BaseGameObject();
 		//A = new Animator(		  60,
