@@ -19,27 +19,20 @@ public class MainView extends View implements Updatable, Drawable{
 	Benchmark BM;
 	WinTool WT;
 	Animator A;
-	Bitmap BB, bmp1;
+	Bitmap Cat_Image, Ball_Image;
 	Ball ball;
 	Timer MT;
-	BaseGameObject BG;
-	/*These do not need to be assigned to 0
-	 *they are automatically set to 0 within
-	 *the class space*/
-	int padding;
-	int MeasuredWidth;
-	
-	private Bitmap bmp;
-	private static int left;
+	BaseGameObject BG,BG2;
 	
 	public MainView(Context C) {
 		super(C);
 		BM = new Benchmark();
 		WT = new WinTool(C);
-		BB = BitmapFactory.decodeResource(this.getResources(), R.drawable.cat);
-		bmp = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
-		padding = bmp.getWidth(); 
-		BG = new BaseGameObject();
+		Cat_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.cat);
+		Ball_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
+		BG = new BaseGameObject(Ball_Image,100,100,50,50);
+		BG2 = new BaseGameObject(Cat_Image,0,0,25,25);
+		ball = new Ball(Ball_Image);
 		//A = new Animator(		  60,
 		//						  new RectF(0,0,1024,512),
 		//						  BB,
@@ -50,15 +43,13 @@ public class MainView extends View implements Updatable, Drawable{
 		//A.Update(mi);
 		//Dont assign here
 		BG.Update(mi);
-		MeasuredWidth = WT.getScreenWidth();
-		left = (int)(Math.random() * (MeasuredWidth - padding)); 
+		ball.Update();
 	}
 	@Override
 	public void Draw(Canvas C) {
 		//A.Draw(C);
 		//I want to see Images consolidated to the BGO
 		BG.Draw(C);
-		C.drawBitmap(bmp, left, 0, null);
 	}
 	@Override
 	public void onDraw(Canvas C) {
