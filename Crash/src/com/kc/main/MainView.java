@@ -18,6 +18,7 @@ import com.kc.tools.BitmapBreaker;
 import com.kc.tools.WinTool;
 import com.kc.tools.Timer;
 import com.wes.crash.Ball;
+import com.wes.crash.BaseGameObject;
 
 public class MainView extends View implements Updatable, Drawable{
 	Benchmark BM;
@@ -26,9 +27,12 @@ public class MainView extends View implements Updatable, Drawable{
 	Bitmap BB, bmp1;
 	Ball ball;
 	Timer MT;
-	
-	int padding = 0;
-	int MeasuredWidth = 0;
+	BaseGameObject BG;
+	/*These do not need to be assigned to 0
+	 *they are automatically set to 0 within
+	 *the class space*/
+	int padding;
+	int MeasuredWidth;
 	
 	private Bitmap bmp;
 	private static int left;
@@ -39,20 +43,26 @@ public class MainView extends View implements Updatable, Drawable{
 		WT = new WinTool(C);
 		BB = BitmapFactory.decodeResource(this.getResources(), 0x7f020001);
 		bmp = BitmapFactory.decodeResource(this.getResources(), 0x7f020004);
-		
-		Log.i("KC",""+BB);
-		A = new Animator(		  60,
-								  new RectF(0,0,1024,512),
-								  BB,
-								  BitmapBreaker.split(0, 0, 1024, 512, 4, 2));
+		padding = bmp.getWidth(); 
+		BG = new BaseGameObject();
+		//A = new Animator(		  60,
+		//						  new RectF(0,0,1024,512),
+		//						  BB,
+		//						  BitmapBreaker.split(0, 0, 1024, 512, 4, 2));
 	}
 	@Override
 	public void Update(long mi) {
-		A.Update(mi);
+		//A.Update(mi);
+		//Dont assign here
+		BG.Update(mi);
+		MeasuredWidth = WT.getScreenWidth();
+		left = (int)(Math.random() * (MeasuredWidth - padding)); 
 	}
 	@Override
 	public void Draw(Canvas C) {
-		A.Draw(C);
+		//A.Draw(C);
+		//I want to see Images consolidated to the BGO
+		BG.Draw(C);
 		C.drawBitmap(bmp, left, 0, null);
 	}
 	@Override
@@ -62,15 +72,5 @@ public class MainView extends View implements Updatable, Drawable{
 		BM.update();
 		Update(BM.getMillisecondsElapsed());
 		Draw(C);
-		update();
 	}
-	
-	public void update() {
-		//updating bmp's position
-		MeasuredWidth = WT.getScreenWidth();
-		padding = bmp.getWidth(); 
-		left = (int)(Math.random() * (MeasuredWidth - padding)); 
-	}
-	
-	
 }

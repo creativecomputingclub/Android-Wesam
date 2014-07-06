@@ -9,7 +9,7 @@ public class BaseGameObject implements Updatable, Drawable{
 	//Here is what the Base Object should look like. Every object will have a vector and an image.
 	// Every object knows how to update and draw
 	// Vector
-	// Image
+	// **Image**
 	public BaseGameObject() {
 		
 	}
