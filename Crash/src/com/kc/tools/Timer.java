@@ -1,5 +1,7 @@
 package com.kc.tools;
 
+import android.util.Log;
+
 import com.kc.inter.Updatable;
 
 public class Timer implements Updatable{

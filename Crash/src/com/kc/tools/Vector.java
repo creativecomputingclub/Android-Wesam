@@ -3,12 +3,32 @@ package com.kc.tools;
 public class Vector {
 	float x, y;
 	
+	
+	public Vector(float x, float y) {
+		this.x = x;
+		this.y = y;
+	}
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
 
 	public Vector() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public float getLength() {
 		return (float) Math.sqrt((x*x)+(y*y));
 	}
@@ -47,7 +67,7 @@ public class Vector {
 		y *= ymag;
 	}
 	
-	public void normadize() {
+	public void normalize() {
 		float L = this.getLength();
 		x /= L;
 		y /= L;

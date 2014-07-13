@@ -6,18 +6,15 @@ import android.graphics.Rect;
 
 import com.kc.inter.Drawable;
 import com.kc.inter.Updatable;
+import com.kc.tools.Vector;
 
 public class BaseGameObject implements Updatable, Drawable {
-	// Here is what the Base Object should look like. Every object will have a
-	// vector and an image.
-	// Every object knows how to update and draw
-	// Vector
-	// **Image**
 	Bitmap image;
 	float x, y, w, h;
+	Vector FrameVector;
 	Rect Coords;
-
 	public BaseGameObject(Bitmap image, float x, float y, float w, float h) {
+		FrameVector = new Vector();
 		this.image = image;
 		Coords = new Rect((int) x, (int) y, (int) (x + w), (int) (y + h));
 		this.x = x;
@@ -25,16 +22,76 @@ public class BaseGameObject implements Updatable, Drawable {
 		this.w = w;
 		this.h = h;
 	}
-
-	@Override
 	public void Update(long mi) {
-		// TODO Auto-generated method stub
-
+		x += FrameVector.getX()*mi;
+		y += FrameVector.getY()*mi;
 	}
-
-	@Override
 	public void Draw(Canvas C) {
-		C.drawBitmap(image, null, Coords, null);
-
+		C.drawBitmap(image, null,new Rect((int)x,(int)y,(int)(x + w),(int)(y + h)), null);
 	}
+	public boolean isColliding(Rect R) {
+		return Coords.intersect(R);
+	}
+	public Bitmap getImage() {
+		return image;
+	}
+	public void setImage(Bitmap image) {
+		this.image = image;
+	}
+
+	public float getX() {
+		return x;
+	}
+
+	public void setX(float x) {
+		this.x = x;
+	}
+
+	public float getY() {
+		return y;
+	}
+
+	public void setY(float y) {
+		this.y = y;
+	}
+
+	public float getW() {
+		return w;
+	}
+
+	public void setW(float w) {
+		this.w = w;
+	}
+
+	public float getH() {
+		return h;
+	}
+
+	public void setH(float h) {
+		this.h = h;
+	}
+
+	public Vector getFrameVector() {
+		return FrameVector;
+	}
+	public void setFrameVector(Vector frameVector) {
+		FrameVector = frameVector;
+	}
+	public void setFVX(float x) {
+		FrameVector.setX(x);
+	}
+	public void setFVY(float y) {
+		FrameVector.setY(y);
+	}
+	public void addVector(Vector V) {
+		FrameVector.add(V.getX(),V.getY());
+	}
+	public Rect getCoords() {
+		return Coords;
+	}
+
+	public void setCoords(Rect coords) {
+		Coords = coords;
+	}
+	
 }
