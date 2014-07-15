@@ -20,7 +20,7 @@ public class MainView extends View implements Updatable, Drawable{
 	public static WinTool WT;
 	public static Bitmap Coin_Image,Dirt_Image,Bubble_Image;
 	ArrayList<BaseGameObject> BL;
-	Pacer P;
+	Pacer Pb,pc;
 	public MainView(Context C) {
 		super(C);
 		BM = new Benchmark();
@@ -29,14 +29,18 @@ public class MainView extends View implements Updatable, Drawable{
 		Dirt_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		Bubble_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bubble);
 		BL = new ArrayList<BaseGameObject>();
-		P = new Pacer(BL,5000);
+		Pb = new Pacer(Bubble_Image,BL,1000,154f,148f);
+		pc = new Pacer(Coin_Image,BL,5000,171f,166f);
 	}
 	public void Update(long mi) {
-		P.Update(mi);
+		Pb.Update(mi);
+		pc.Update(mi);
 		for (BaseGameObject BG : BL) BG.Update(mi);
+		for (BaseGameObject BC : BL) BC.Update(mi);
 	}
 	public void Draw(Canvas C) {
 		for (BaseGameObject BG : BL) BG.Draw(C);
+		for (BaseGameObject BC : BL) BC.Draw(C);
 	}
 	public void onDraw(Canvas C) {
 		super.onDraw(C);
