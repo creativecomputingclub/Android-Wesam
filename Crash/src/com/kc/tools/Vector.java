@@ -8,6 +8,10 @@ public class Vector {
 		this.x = x;
 		this.y = y;
 	}
+	public Vector(float angle){
+		this.x = (float)Math.cos(angle);
+		this.y = (float)Math.sin(angle);
+	}
 	public float getX() {
 		return x;
 	}
