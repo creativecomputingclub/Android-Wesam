@@ -16,18 +16,19 @@ public class BaseGameObject implements Updatable, Drawable {
 	public BaseGameObject(Bitmap image, float x, float y, float w, float h) {
 		FrameVector = new Vector();
 		this.image = image;
-		Coords = new Rect((int) x, (int) y, (int) (x + w), (int) (y + h));
 		this.x = x;
 		this.y = y;
 		this.w = w;
 		this.h = h;
+		Coords = new Rect((int) x, (int) y, (int) (x + w), (int) (y + h));
 	}
 	public void Update(long mi) {
 		x += FrameVector.getX()*mi;
 		y += FrameVector.getY()*mi;
+		Coords = new Rect((int)x,(int)y,(int)(x + w),(int)(y + h));
 	}
 	public void Draw(Canvas C) {
-		C.drawBitmap(image, null,new Rect((int)x,(int)y,(int)(x + w),(int)(y + h)), null);
+		C.drawBitmap(image, null,Coords, null);
 	}
 	public boolean isColliding(Rect R) {
 		return Coords.intersect(R);

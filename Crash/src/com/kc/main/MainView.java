@@ -53,8 +53,11 @@ public class MainView extends View implements Updatable, Drawable{
 			if (BG.getY() > WT.getScreenHeight()) BL.remove(BG);
 		}
 		if(ispress) {
-			//check collision
+			//check collision OF EVERYTHING IN LIST
 			boolean b = Co.getCoords().contains((int)x,(int)y);
+			// If b is true and ITEM IS BUBBLE
+				//add coin to list
+				// remove this item from list
 		}
 		Co.update(mi);
 	}
