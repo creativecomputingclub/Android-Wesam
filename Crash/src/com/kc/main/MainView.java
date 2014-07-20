@@ -7,11 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 
 import com.example.crash.R;
 import com.kc.inter.Drawable;
@@ -26,16 +23,23 @@ public class MainView extends View implements Updatable, Drawable{
 	public static WinTool WT;
 	public static Bitmap Coin_Image,Dirt_Image,Bubble_Image;
 	ArrayList<BaseGameObject> BL;
+	BaseGameObject BG, BGO;
 	Pacer Pb,pc;
 	Coin Co;
 	float x, y;
 	boolean ispress;
 	public MainView(Context C) {
 		super(C);
+		try{
+			Thread.sleep(33);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		BM = new Benchmark();
 		WT = new WinTool(C);
+		BGO = new Coin(Coin_Image,300f,300f,171f,166f,-1.5f,.1f);
 		Coin_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.coin);
-		Co = new Coin(Coin_Image,300f,300f,171f,166f,-1.5f,.1f);
+		Co = new Coin(Coin_Image,x,y,171f,166f,-1.5f,.1f);
 		Dirt_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		Bubble_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bubble);
 		
@@ -46,18 +50,28 @@ public class MainView extends View implements Updatable, Drawable{
 		Pb.getT().setThreshold(1000);
 	}
 	public void Update(long mi) {
+		
 		Pb.Update(mi);
 		for (int i = BL.size()-1; i > -1; i--) {
-			BaseGameObject BG = BL.get(i);
+			BG = BL.get(i);
 			BG.Update(mi);
 			if (BG.getY() > WT.getScreenHeight()) BL.remove(BG);
 		}
-		if(ispress) {
+		if(ispress == true) {
 			//check collision OF EVERYTHING IN LIST
-			boolean b = Co.getCoords().contains((int)x,(int)y);
+			//boolean b = Co.getCoords().contains((int)x,(int)y);
 			// If b is true and ITEM IS BUBBLE
 				//add coin to list
 				// remove this item from list
+			BL.remove(BG);
+			/*BGO = BL.get(i);
+			if (BGO instanceof Coin) {
+				Coin C = (Coin)BGO;
+				//Do stuff with coin
+					}
+					*/
+			Co = new Coin(Coin_Image,x,y,171f,166f,-1.5f,.1f);
+			
 		}
 		Co.update(mi);
 	}
@@ -79,21 +93,23 @@ public class MainView extends View implements Updatable, Drawable{
 		Draw(C);
 	}
 	public boolean onTouchEvent(MotionEvent event) {
-		try{
-			Thread.sleep(33);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		
 		x = event.getX();
 		y = event.getY();
-		if (MotionEvent.ACTION_DOWN == event.getAction()) {
-			ispress = true;
-		}
-		if (MotionEvent.ACTION_UP == event.getAction()) {
+		switch(event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				if(x >= BG.getX() && x < (BG.getX() + BG.getW())
+		                && y >= BG.getY() && y < (BG.getY() + BG.getH())) {
+					ispress = true;
+				}
+				
+				if(ispress == true) {
+					
+				}
+			break;
+			case MotionEvent.ACTION_UP:
 			ispress = false;
+			break;
 		}
-		
 		return true;
 	}
 	
