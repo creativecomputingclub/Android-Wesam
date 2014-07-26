@@ -15,19 +15,20 @@ public class Pacer implements Updatable, Drawable{
 	ArrayList<BaseGameObject> BL;
 	ResetTimer T;
 	float limit;
-	float minspeed;
+	float minspeed, maxspeed;
 	public Pacer(final Bitmap image, final ArrayList<BaseGameObject> BL, double thr, final float w, final float h) {
 		this.BL = BL;
 		limit = 10f;
 		minspeed = .4f;
+		maxspeed = 1f;
 		T = new ResetTimer(thr) {
 			public void reset() {
 				if (BL.size() < limit) {
 					super.reset();
 					BaseGameObject Temp;
-					float f = (float)(Math.random()-minspeed)+minspeed;
+					float f = (float)(Math.random()*maxspeed)+minspeed;
 					float x = (float) (Math.random()*(MainView.WT.getScreenWidth()-w));
-					float y = -(float)(Math.random()*(MainView.WT.getScreenHeight()))-h;
+					float y = (float)((MainView.WT.getScreenHeight()))+h;
 					Temp = new BaseGameObject(image,x,y,w,h);
 					Temp.setFrameVector(new Vector(0,f));
 					BL.add(Temp);
@@ -58,6 +59,12 @@ public class Pacer implements Updatable, Drawable{
 	}
 	public void setMinspeed(float minspeed) {
 		this.minspeed = minspeed;
+	}
+	public float getMaxspeed() {
+		return maxspeed;
+	}
+	public void setMaxspeed(float maxspeed) {
+		this.maxspeed = maxspeed;
 	}
 	
 }

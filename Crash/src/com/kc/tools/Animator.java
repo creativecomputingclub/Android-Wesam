@@ -20,6 +20,8 @@ public class Animator implements Drawable, Updatable{
 	int CurrentFrame;
 	float threshold;
 	public Animator(float threshold,RectF Coordinates,Bitmap Image, ArrayList<Rect> Frames) {
+		//BitmapBreaker.split(0, 0, 500, 500, 4, 2);
+		//new RectF(x, y, x+w, y+h);
 		setImage(Image);
 		setFrames(Frames);
 		setCoordinates(Coordinates);
