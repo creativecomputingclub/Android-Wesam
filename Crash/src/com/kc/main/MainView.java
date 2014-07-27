@@ -60,12 +60,18 @@ public class MainView extends View implements Updatable, Drawable{
 				continue;
 			}
 			if(ispress == true) {
-				boolean b = BGO.getCoords().contains((int)x,(int)y);	
-				if(b == true && BGO.isCanbepressed() == true) {
+				boolean b = BGO.getCoords().contains((int)x,(int)y);
+				if(b == true){
+					//BGO.getT().start();
 					Coins.remove(BGO);
-					BGO.getT().stop();
+					//BGO.getT().reset();
 					ispress = false;
 				}
+				/*if(b == true && BGO.isCanbepressed() == true) {
+					ispress = false;
+				}if(b == true && BGO.isCanbepressed() == false){
+						
+				}*/
 			}
 		}
 		Pb.Update(mi);

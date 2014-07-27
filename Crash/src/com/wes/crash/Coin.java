@@ -20,7 +20,7 @@ public class Coin extends BaseGameObject {
 		JumpVector = new Vector(getAngle.getX(),jvy);
 		GravityVector = new Vector(0,gvy);
 		T = new Timer();
-		if(T.getMilliseconds() > 700) {
+		if(T.getMilliseconds() < 700) {
 			canbepressed = true;
 		}
 	}
