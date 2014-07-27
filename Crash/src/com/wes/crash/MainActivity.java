@@ -15,15 +15,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	Bitmap bg, Tile_Dirt;
 	Intent startGame;
 	Button ib;
+	View v;
 	
-	public MainActivity(Context C) {
-		super();
+	protected void onCreate(Bundle savedInstanceState) {
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 		bg = BitmapFactory.decodeResource(this.getResources(), R.drawable.sample);
 		Tile_Dirt = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		/*if (bg != null) {
@@ -32,14 +34,11 @@ public class MainActivity extends Activity {
 		addListenerOnButton();
 	}
 	
-	protected void onCreate(Bundle savedInstanceState) {
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+	private void setContentView() {
+		// TODO Auto-generated method stub
+		
 	}
-	
 
-	
 	public void addListenerOnButton() {
 		ib = (Button) findViewById(R.id.button);
 	 
@@ -47,7 +46,7 @@ public class MainActivity extends Activity {
 	 
 				@Override
 				public void onClick(View arg0) {
-					Intent intent = new Intent("com.example.crash.MAINVIEW");
+					Intent intent = new Intent("android.intent.action.MAINVIEW");
 					startActivity(intent);
 				}
 	 
