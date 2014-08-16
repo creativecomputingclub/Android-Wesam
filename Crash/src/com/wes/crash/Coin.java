@@ -19,10 +19,6 @@ public class Coin extends BaseGameObject {
 		getAngle.scale(.045f,1);
 		JumpVector = new Vector(getAngle.getX(),jvy);
 		GravityVector = new Vector(0,gvy);
-		T = new Timer();
-		if(T.getMilliseconds() < 700) {
-			canbepressed = true;
-		}
 	}
 	public void Update(long mi) {
 		super.Update(mi);
@@ -31,6 +27,7 @@ public class Coin extends BaseGameObject {
 			HasJumped = true;
 		}
 		FrameVector.add(GravityVector.getX(),GravityVector.getY());
+		if (FrameVector.getY() > 2) canbepressed = true;
 	}
 	public void Draw(Canvas C) {
 		super.Draw(C);

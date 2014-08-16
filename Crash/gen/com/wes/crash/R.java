@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.crash;
+package com.wes.crash;
 
 public final class R {
     public static final class attr {
@@ -22,13 +22,14 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int bubble=0x7f020000;
-        public static final int cat=0x7f020001;
-        public static final int coin=0x7f020002;
-        public static final int gamestart=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int sample=0x7f020005;
-        public static final int tiledirt=0x7f020006;
+        public static final int background=0x7f020000;
+        public static final int bubble=0x7f020001;
+        public static final int cat=0x7f020002;
+        public static final int coin=0x7f020003;
+        public static final int gamestart=0x7f020004;
+        public static final int ic_launcher=0x7f020005;
+        public static final int sample=0x7f020006;
+        public static final int tiledirt=0x7f020007;
     }
     public static final class id {
         public static final int action_settings=0x7f090002;

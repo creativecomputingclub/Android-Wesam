@@ -31,7 +31,11 @@ public class BaseGameObject implements Updatable, Drawable {
 		C.drawBitmap(image, null,Coords, null);
 	}
 	public boolean isColliding(Rect R) {
-		return Coords.intersect(R);
+		if(x+w < R.left) return false;
+		else if(R.right < x) return false;
+		else if(R.top > y+h) return false;
+		else if(y > R.bottom) return false;
+		return true;
 	}
 	public Bitmap getImage() {
 		return image;

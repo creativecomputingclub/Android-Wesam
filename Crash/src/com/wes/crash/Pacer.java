@@ -14,33 +14,50 @@ import com.kc.tools.Vector;
 public class Pacer implements Updatable, Drawable{
 	ArrayList<BaseGameObject> BL;
 	ResetTimer T;
-	float limit;
+	float limit, y, x;
 	float minspeed, maxspeed;
+	public int loc;
+	public int SpawnObect;
+	public static final int COIN = 0, GLASS_SPHERE = 1;
+	public static final int NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3;
 	public Pacer(final Bitmap image, final ArrayList<BaseGameObject> BL, double thr, final float w, final float h) {
 		this.BL = BL;
 		limit = 10f;
 		minspeed = .4f;
 		maxspeed = 1f;
+		setSpawnObject(GLASS_SPHERE);
 		T = new ResetTimer(thr) {
-			public void reset() {
+			public void reset(){
 				if (BL.size() < limit) {
 					super.reset();
-					BaseGameObject Temp;
-					float f = (float)(Math.random()*maxspeed)+minspeed;
-					float x = (float) (Math.random()*(MainView.WT.getScreenWidth()-w));
-					float y = (float)((MainView.WT.getScreenHeight()))+h;
-					Temp = new BaseGameObject(image,x,y,w,h);
-					Temp.setFrameVector(new Vector(0,f));
-					BL.add(Temp);
+					spawnObject();
+					System.out.println(System.currentTimeMillis());
 				}
 			}
 		};
+	}
+	public void spawnObject(){
+		
+		addToList(null);
+	}
+	public void addToList(BaseGameObject BGO) {
+		
+	}
+	public void getLocation(){
+		
 	}
 	public void Update(long mi) {
 		T.Update(mi);
 	}
 	public void Draw(Canvas C) {
 		
+	}
+	public void setSpawnLocation(int loc) {
+		this.loc = loc;
+
+	}
+	public void setSpawnObject(int o) {
+		SpawnObect = o;
 	}
 	public ResetTimer getT() {
 		return T;
