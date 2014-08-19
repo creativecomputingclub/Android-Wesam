@@ -24,7 +24,7 @@ public class MainView extends View implements Updatable, Drawable{
 	Benchmark BM;
 	public static WinTool WT;
 	public static Bitmap Coin_Image,Dirt_Image,Sphere_Image,Background_Image;
-	Background BG1, BG2;
+	Background BG1;
 	ArrayList<BaseGameObject> BL;
 	ArrayList<Coin>Coins;
 	BaseGameObject BG;
@@ -33,21 +33,15 @@ public class MainView extends View implements Updatable, Drawable{
 	boolean ispress;
 	public MainView(Context C) {
 		super(C);
-		try{
-			Thread.sleep(33);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		BM = new Benchmark();
 		WT = new WinTool(C);
 
 		Coin_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.coin);
 		Dirt_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		Sphere_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bubble);
-		Background_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.background);
+		Background_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bg2);
 		Background_Image = Bitmap.createScaledBitmap(Background_Image, WT.getScreenWidth(), 2048, true);
-		BG1 = new Background(Background_Image,0,0,3);
-		BG2 = new Background(Background_Image,0,2048,3);
+		BG1 = new Background(Background_Image,.1f);
 		BL = new ArrayList<BaseGameObject>();
 		Coins = new ArrayList<Coin>();
 		Pb = new ClassicPacer(Sphere_Image,BL,500,154f,148f) {
@@ -57,7 +51,6 @@ public class MainView extends View implements Updatable, Drawable{
 					BL.add(BGO);
 				}
 				if (BGO instanceof GlassSphere) {
-					System.out.println("SPHERE ADDED");
 					//Coins.add((Coin)BGO);
 					BL.add(BGO);
 				}
@@ -74,7 +67,6 @@ public class MainView extends View implements Updatable, Drawable{
 	}
 	public void Update(long mi) {
 		BG1.Update(mi);
-		BG2.Update(mi);
 		Rect TES = new Rect((int)x,(int)y,(int)x,(int)y);
 		for (int j = Coins.size()-1; j > -1; j--) {
 			Coin BGO = Coins.get(j);
@@ -85,7 +77,7 @@ public class MainView extends View implements Updatable, Drawable{
 			}
 			if(ispress == true) {
 				boolean b = BGO.isColliding(TES);
-				if(b == true){
+				if(b == true && BGO.isCanbepressed()){
 					Coins.remove(BGO);
 					ispress = false;
 				}
@@ -102,7 +94,18 @@ public class MainView extends View implements Updatable, Drawable{
 			if(ispress == true) {
 				boolean b = BG.isColliding(TES);	
 				if(b == true) {
-					Coins.add(new Coin(Coin_Image, x, y, 200f, 193f, -1.5f,.1f));
+					float bgx = BG.getX();
+					float bgy = BG.getY();
+					float bgw = BG.getW();
+					float bgh = BG.getH();
+					float ret = .92f;
+					float coinw = bgw * ret;
+					float coinh = bgh * ret;
+					float midx = bgx + (bgw/2);
+					float midy = bgy + (bgh/2);
+					float coinx = midx - (coinw/2);
+					float coiny = midy - (coinh/2);
+					Coins.add(new Coin(Coin_Image,coinx,coiny,coinw,coinh, -1.5f,.1f));
 					remove(BG);
 					ispress = false;
 				}
@@ -112,7 +115,6 @@ public class MainView extends View implements Updatable, Drawable{
 	}
 	public void Draw(Canvas C) {
 		BG1.Draw(C);
-		BG2.Draw(C);
 		for (BaseGameObject BG : BL) BG.Draw(C);
 		for (int i = 0; i < Coins.size(); i++) Coins.get(i).Draw(C);
 		Paint P = new Paint();

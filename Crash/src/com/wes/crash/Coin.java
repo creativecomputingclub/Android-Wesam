@@ -16,7 +16,7 @@ public class Coin extends BaseGameObject {
 	public Coin(Bitmap Coin,float x, float y, float w, float h, float jvy, float gvy) {
 		super(Coin,x,y,w,h);
 		getAngle = new Vector((float)(Math.random()*Math.PI));
-		getAngle.scale(.045f,1);
+		getAngle.scale(.8f,1.5f);
 		JumpVector = new Vector(getAngle.getX(),jvy);
 		GravityVector = new Vector(0,gvy);
 	}
@@ -27,7 +27,7 @@ public class Coin extends BaseGameObject {
 			HasJumped = true;
 		}
 		FrameVector.add(GravityVector.getX(),GravityVector.getY());
-		if (FrameVector.getY() > 2) canbepressed = true;
+		if (FrameVector.getY() > 0) canbepressed = true;
 	}
 	public void Draw(Canvas C) {
 		super.Draw(C);

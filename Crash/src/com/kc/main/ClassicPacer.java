@@ -34,7 +34,6 @@ public class ClassicPacer extends Pacer {
 				Point P = getLocation(super.NORTH,w,h);
 				BGO = new GlassSphere(MainView.Sphere_Image,P.x,P.y,w,h);
 				BGO.setFVY(.8f);
-				System.out.println("SPHERE MADE");
 				break;
 			}
 		}
