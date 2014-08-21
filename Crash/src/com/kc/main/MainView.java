@@ -20,23 +20,28 @@ import com.wes.crash.BaseGameObject;
 import com.wes.crash.Coin;
 import com.wes.crash.GlassSphere;
 import com.wes.crash.R;
+import com.wes.crash.StreamCoin;
 public class MainView extends View implements Updatable, Drawable{
 	Benchmark BM;
 	public static WinTool WT;
-	public static Bitmap Coin_Image,Dirt_Image,Sphere_Image,Background_Image;
+	public static Bitmap Coin_Image,Dirt_Image,Sphere_Image,Background_Image,Red_Coin,Green_Coin;
 	Background BG1;
 	ArrayList<BaseGameObject> BL;
 	ArrayList<Coin>Coins;
 	BaseGameObject BG;
 	ClassicPacer Pb;
-	float x, y;
+	StreamCoin Sc;
+	float x, y, score;
 	boolean ispress;
 	public MainView(Context C) {
 		super(C);
 		BM = new Benchmark();
 		WT = new WinTool(C);
-
+		
+		score = 0;
 		Coin_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.coin);
+		Red_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.redcoin);
+		Green_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.greencoin);
 		Dirt_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		Sphere_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bubble);
 		Background_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bg2);
@@ -44,6 +49,7 @@ public class MainView extends View implements Updatable, Drawable{
 		BG1 = new Background(Background_Image,.1f);
 		BL = new ArrayList<BaseGameObject>();
 		Coins = new ArrayList<Coin>();
+		Sc = new StreamCoin(Coin_Image,100,0,156,176);
 		Pb = new ClassicPacer(Sphere_Image,BL,500,154f,148f) {
 			public void addToList(BaseGameObject BGO) {
 				if (BGO instanceof Coin) {	
@@ -75,10 +81,26 @@ public class MainView extends View implements Updatable, Drawable{
 				remove(BGO);
 				continue;
 			}
+			/*(score >= 10){
+				BGO.getT().start();
+			}
+			while(score >= 10 && BGO.getT().getMilliseconds() <= 10000) {
+					
+					BGO.getT().stop();
+				}*/
 			if(ispress == true) {
 				boolean b = BGO.isColliding(TES);
-				if(b == true && BGO.isCanbepressed()){
+				if(b == true && BGO.isCanbepressed() && score < 10){
 					Coins.remove(BGO);
+					score++;
+					ispress = false;
+				}else if(b == true && BGO.isCanbepressed() && score >= 10 && score < 50){
+					Coins.remove(BGO);
+					score += 5;
+					ispress = false;
+				}else if(b == true && BGO.isCanbepressed() && score >= 50){
+					Coins.remove(BGO);
+					score += 10;
 					ispress = false;
 				}
 			}
@@ -92,25 +114,33 @@ public class MainView extends View implements Updatable, Drawable{
 				continue;
 			}
 			if(ispress == true) {
-				boolean b = BG.isColliding(TES);	
-				if(b == true) {
-					float bgx = BG.getX();
-					float bgy = BG.getY();
-					float bgw = BG.getW();
-					float bgh = BG.getH();
-					float ret = .92f;
-					float coinw = bgw * ret;
-					float coinh = bgh * ret;
-					float midx = bgx + (bgw/2);
-					float midy = bgy + (bgh/2);
-					float coinx = midx - (coinw/2);
-					float coiny = midy - (coinh/2);
+				boolean b = BG.isColliding(TES);
+				float bgx = BG.getX();
+				float bgy = BG.getY();
+				float bgw = BG.getW();
+				float bgh = BG.getH();
+				float ret = 1.2f;
+				float coinw = bgw * ret;
+				float coinh = bgh * ret;
+				float midx = bgx + (bgw/2);
+				float midy = bgy + (bgh/2);
+				float coinx = midx - (coinw/2);
+				float coiny = midy - (coinh/2);	
+				if(b == true && score < 10) {
 					Coins.add(new Coin(Coin_Image,coinx,coiny,coinw,coinh, -1.5f,.1f));
+					remove(BG);
+					ispress = false;
+				}else if(b == true && score >= 10 && score < 50) {
+					Coins.add(new Coin(Red_Coin,coinx,coiny,coinw,coinh, -1.5f,.1f));
+					remove(BG);
+					ispress = false;
+				}else if(b == true && score >= 15) {
+					Coins.add(new Coin(Green_Coin,coinx,coiny,coinw,coinh, -1.5f,.1f));
 					remove(BG);
 					ispress = false;
 				}
 			}
-		}	
+		}
 		
 	}
 	public void Draw(Canvas C) {
@@ -120,7 +150,7 @@ public class MainView extends View implements Updatable, Drawable{
 		Paint P = new Paint();
 		P.setTextSize(100f);
 		P.setARGB(255,0,0,0);
-		C.drawText(""+Coins.size(),100,100,P);
+		C.drawText(""+score,100,100,P);
 	}
 	public void onDraw(Canvas C) {
 		super.onDraw(C);
