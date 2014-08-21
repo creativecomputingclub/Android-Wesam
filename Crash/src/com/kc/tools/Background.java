@@ -23,19 +23,18 @@ public class Background {
 	float ScreenWidth;
 	float Buffer;
 	float Middle;
-	public Background(Bitmap Image,float speed){
+	public Background(Bitmap Image,int Buffer,float BufferChange){
 		this.Image = Image;
-		this.speed = .1f;
 		CurrentX = 0;
 		CurrentY = 0;
-		Log.i("KC","IH: " + Image.getHeight());
 		ScreenWidth = MainView.WT.ScreenWidth;
 		ImageWidth = MainView.WT.ScreenWidth;
-		ImageHeight = 2048;
+		ImageHeight = Image.getHeight();
 		ScreenHeight = MainView.WT.ScreenHeight;
-		Buffer = 500;
-		this.speed = Buffer / 1500;
-		Middle = 1205;
+		Middle = ImageHeight/2;
+		if (Buffer > Middle) Buffer = (int)Middle;
+		this.Buffer = Buffer;
+		this.speed = Buffer*BufferChange;
 		//for (int i = 0; i < ImageWidth; i++) Image.setPixel(i, (int) (Middle),Color.GREEN);
 	}
 	public void Update(long mi){

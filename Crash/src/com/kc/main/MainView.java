@@ -33,20 +33,24 @@ public class MainView extends View implements Updatable, Drawable{
 	StreamCoin Sc;
 	float x, y, score;
 	boolean ispress;
+	public static int SCORE_NORMAL_HIGH = 9;
+	public static int SCORE_RED_LOW = 10, SCORE_RED_HIGH = 49;
+	public static int SCORE_GREEN_LOW = 50;
+	public static int SCORE_NORMAL_INCREASE = 1;
+	public static int SCORE_RED_INCREASE = 5;
+	public static int SCORE_GREEN_INCREASE = 10;
 	public MainView(Context C) {
 		super(C);
 		BM = new Benchmark();
 		WT = new WinTool(C);
-		
 		score = 0;
 		Coin_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.coin);
 		Red_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.redcoin);
 		Green_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.greencoin);
 		Dirt_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		Sphere_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bubble);
-		Background_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bg2);
-		Background_Image = Bitmap.createScaledBitmap(Background_Image, WT.getScreenWidth(), 2048, true);
-		BG1 = new Background(Background_Image,.1f);
+		Background_Image = getScaledBitmap(R.drawable.bghv1_new,WT.getScreenWidth(),2048);
+		BG1 = new Background(Background_Image,400,.0005f);
 		BL = new ArrayList<BaseGameObject>();
 		Coins = new ArrayList<Coin>();
 		Sc = new StreamCoin(Coin_Image,100,0,156,176);
@@ -90,17 +94,11 @@ public class MainView extends View implements Updatable, Drawable{
 				}*/
 			if(ispress == true) {
 				boolean b = BGO.isColliding(TES);
-				if(b == true && BGO.isCanbepressed() && score < 10){
+				if (b == true && BGO.isCanbepressed()) {
+					if(score <= SCORE_NORMAL_HIGH) score += SCORE_NORMAL_INCREASE;
+					else if(score >= SCORE_RED_LOW && score <= SCORE_RED_HIGH) score += SCORE_RED_INCREASE;
+					else if(score >= SCORE_GREEN_LOW) score += SCORE_GREEN_INCREASE;
 					Coins.remove(BGO);
-					score++;
-					ispress = false;
-				}else if(b == true && BGO.isCanbepressed() && score >= 10 && score < 50){
-					Coins.remove(BGO);
-					score += 5;
-					ispress = false;
-				}else if(b == true && BGO.isCanbepressed() && score >= 50){
-					Coins.remove(BGO);
-					score += 10;
 					ispress = false;
 				}
 			}
@@ -115,27 +113,23 @@ public class MainView extends View implements Updatable, Drawable{
 			}
 			if(ispress == true) {
 				boolean b = BG.isColliding(TES);
-				float bgx = BG.getX();
-				float bgy = BG.getY();
-				float bgw = BG.getW();
-				float bgh = BG.getH();
-				float ret = 1.2f;
-				float coinw = bgw * ret;
-				float coinh = bgh * ret;
-				float midx = bgx + (bgw/2);
-				float midy = bgy + (bgh/2);
-				float coinx = midx - (coinw/2);
-				float coiny = midy - (coinh/2);	
-				if(b == true && score < 10) {
-					Coins.add(new Coin(Coin_Image,coinx,coiny,coinw,coinh, -1.5f,.1f));
-					remove(BG);
-					ispress = false;
-				}else if(b == true && score >= 10 && score < 50) {
-					Coins.add(new Coin(Red_Coin,coinx,coiny,coinw,coinh, -1.5f,.1f));
-					remove(BG);
-					ispress = false;
-				}else if(b == true && score >= 15) {
-					Coins.add(new Coin(Green_Coin,coinx,coiny,coinw,coinh, -1.5f,.1f));
+				if (b == true) {
+					float bgx = BG.getX();
+					float bgy = BG.getY();
+					float bgw = BG.getW();
+					float bgh = BG.getH();
+					float ret = .98f;
+					float coinw = bgw * ret;
+					float coinh = bgh * ret;
+					float midx = bgx + (bgw/2);
+					float midy = bgy + (bgh/2);
+					float coinx = midx - (coinw/2);
+					float coiny = midy - (coinh/2);	
+					Bitmap Image = null;
+					if(score <= SCORE_NORMAL_HIGH) Image = Coin_Image;
+					else if(score >= SCORE_RED_LOW && score <= SCORE_RED_HIGH) Image = Red_Coin;
+					else if(score >= SCORE_GREEN_LOW) Image = Green_Coin;
+					Coins.add(new Coin(Image,coinx,coiny,coinw,coinh, -1.5f,.1f));
 					remove(BG);
 					ispress = false;
 				}
@@ -144,12 +138,15 @@ public class MainView extends View implements Updatable, Drawable{
 		
 	}
 	public void Draw(Canvas C) {
+		Paint P1 = new Paint();
+		P1.setARGB(255,0,0,0);
+		C.drawRect(new Rect(0,0,WT.getScreenWidth(),WT.getScreenHeight()),P1);
 		BG1.Draw(C);
 		for (BaseGameObject BG : BL) BG.Draw(C);
 		for (int i = 0; i < Coins.size(); i++) Coins.get(i).Draw(C);
 		Paint P = new Paint();
 		P.setTextSize(100f);
-		P.setARGB(255,0,0,0);
+		P.setARGB(255,255,255,255);
 		C.drawText(""+score,100,100,P);
 	}
 	public void onDraw(Canvas C) {
@@ -163,14 +160,20 @@ public class MainView extends View implements Updatable, Drawable{
 		x = event.getX();
 		y = event.getY();
 		switch(event.getAction()) {
-			case MotionEvent.ACTION_DOWN:
+			case MotionEvent.ACTION_DOWN: {
 				ispress = true;
-			break;
-			case MotionEvent.ACTION_UP:
-			ispress = false;
-			break;
+				break;
+			}
+			case MotionEvent.ACTION_UP: {
+				ispress = false;
+				break;
+			}
 		}
 		return true;
 	}
-	
+	public Bitmap getScaledBitmap(int id, int w, int h) {
+		return Bitmap.createScaledBitmap(
+				BitmapFactory.decodeResource(this.getResources(),id),
+				w,h,true);
+	}
 }
