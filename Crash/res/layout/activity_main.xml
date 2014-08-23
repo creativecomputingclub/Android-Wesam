@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wes.crash.MainActivity"
-    android:background="@drawable/sample" >
+    android:background="@drawable/color_background" >
 
     <Button
         android:id="@+id/button"

@@ -19,40 +19,49 @@ import com.kc.tools.WinTool;
 import com.wes.crash.BaseGameObject;
 import com.wes.crash.Coin;
 import com.wes.crash.GlassSphere;
+import com.wes.crash.Bomb;
 import com.wes.crash.R;
 import com.wes.crash.StreamCoin;
 public class MainView extends View implements Updatable, Drawable{
 	Benchmark BM;
 	public static WinTool WT;
-	public static Bitmap Coin_Image,Dirt_Image,Sphere_Image,Background_Image,Red_Coin,Green_Coin;
+	public static Bitmap Coin_Image,Dirt_Image,Sphere_Image,Background_Image,Red_Coin,Green_Coin,Blue_Coin,Bomb_Image;
 	Background BG1;
 	ArrayList<BaseGameObject> BL;
 	ArrayList<Coin>Coins;
+	ArrayList<Bomb>Bombs;
 	BaseGameObject BG;
-	ClassicPacer Pb;
+	ClassicPacer Pb, pb2;
 	StreamCoin Sc;
 	float x, y, score;
 	boolean ispress;
 	public static int SCORE_NORMAL_HIGH = 9;
-	public static int SCORE_RED_LOW = 10, SCORE_RED_HIGH = 49;
+	public static int SCORE_BLUE_LOW = 10, SCORE_BLUE_HIGH = 49;
 	public static int SCORE_GREEN_LOW = 50;
+	public static int SCORE_RED_RANDOM = (int) (Math.random()*10)*10;
 	public static int SCORE_NORMAL_INCREASE = 1;
-	public static int SCORE_RED_INCREASE = 5;
+	public static int SCORE_BLUE_INCREASE = 5;
 	public static int SCORE_GREEN_INCREASE = 10;
+	public static int SCORE_RED_DECREASE = 50;
 	public MainView(Context C) {
 		super(C);
 		BM = new Benchmark();
 		WT = new WinTool(C);
 		score = 0;
+		//Initialize bitmaps
 		Coin_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.coin);
 		Red_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.redcoin);
 		Green_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.greencoin);
+		Blue_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.bluecoin);
+		Bomb_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bomb);
 		Dirt_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.tiledirt);
 		Sphere_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bubble);
 		Background_Image = getScaledBitmap(R.drawable.bghv1_new,WT.getScreenWidth(),2048);
+		//initialize objects
 		BG1 = new Background(Background_Image,400,.0005f);
 		BL = new ArrayList<BaseGameObject>();
 		Coins = new ArrayList<Coin>();
+		Bombs = new ArrayList<Bomb>();
 		Sc = new StreamCoin(Coin_Image,100,0,156,176);
 		Pb = new ClassicPacer(Sphere_Image,BL,500,154f,148f) {
 			public void addToList(BaseGameObject BGO) {
@@ -64,16 +73,37 @@ public class MainView extends View implements Updatable, Drawable{
 					//Coins.add((Coin)BGO);
 					BL.add(BGO);
 				}
+				if (BGO instanceof Bomb) {
+					Bombs.add((Bomb)BGO);
+					BL.add(BGO);
+				}
 			}
 		};
 		Pb.setMinspeed(-.5f);
 		Pb.setMaxspeed(-.9f);
 		Pb.setLimit(10);
 		Pb.getT().setThreshold(1000);
+		pb2 = new ClassicPacer(Bomb_Image,BL,1000,141f,172f) {
+			public void addToList(BaseGameObject BGO) {
+				if (BGO instanceof Coin) {	
+					Coins.add((Coin)BGO);
+					BL.add(BGO);
+				}
+				if (BGO instanceof GlassSphere) {
+					//Coins.add((Coin)BGO);
+					BL.add(BGO);
+				}
+				if (BGO instanceof Bomb) {
+					Bombs.add((Bomb)BGO);
+					BL.add(BGO);
+				}
+			}
+		};
 	}
 	public void remove(BaseGameObject BGO) {
 		BL.remove(BGO);
 		Coins.remove(BGO);
+		Bombs.remove(BGO);
 	}
 	public void Update(long mi) {
 		BG1.Update(mi);
@@ -95,8 +125,9 @@ public class MainView extends View implements Updatable, Drawable{
 			if(ispress == true) {
 				boolean b = BGO.isColliding(TES);
 				if (b == true && BGO.isCanbepressed()) {
-					if(score <= SCORE_NORMAL_HIGH) score += SCORE_NORMAL_INCREASE;
-					else if(score >= SCORE_RED_LOW && score <= SCORE_RED_HIGH) score += SCORE_RED_INCREASE;
+					if(score == SCORE_RED_RANDOM) score -= SCORE_RED_DECREASE;
+					else if(score <= SCORE_NORMAL_HIGH) score += SCORE_NORMAL_INCREASE;
+					else if(score >= SCORE_BLUE_LOW && score <= SCORE_BLUE_HIGH) score += SCORE_BLUE_INCREASE;
 					else if(score >= SCORE_GREEN_LOW) score += SCORE_GREEN_INCREASE;
 					Coins.remove(BGO);
 					ispress = false;
@@ -118,7 +149,7 @@ public class MainView extends View implements Updatable, Drawable{
 					float bgy = BG.getY();
 					float bgw = BG.getW();
 					float bgh = BG.getH();
-					float ret = .98f;
+					float ret = 1.2f;
 					float coinw = bgw * ret;
 					float coinh = bgh * ret;
 					float midx = bgx + (bgw/2);
@@ -126,11 +157,26 @@ public class MainView extends View implements Updatable, Drawable{
 					float coinx = midx - (coinw/2);
 					float coiny = midy - (coinh/2);	
 					Bitmap Image = null;
-					if(score <= SCORE_NORMAL_HIGH) Image = Coin_Image;
-					else if(score >= SCORE_RED_LOW && score <= SCORE_RED_HIGH) Image = Red_Coin;
+					if(score == SCORE_RED_RANDOM) Image = Red_Coin;
+					else if(score <= SCORE_NORMAL_HIGH) Image = Coin_Image;
+					else if(score >= SCORE_BLUE_LOW && score <= SCORE_BLUE_HIGH) Image = Blue_Coin;
 					else if(score >= SCORE_GREEN_LOW) Image = Green_Coin;
 					Coins.add(new Coin(Image,coinx,coiny,coinw,coinh, -1.5f,.1f));
 					remove(BG);
+					ispress = false;
+				}
+			}
+		}
+		for (int k = Bombs.size()-1; k > -1; k--) {
+			Bomb BBG = Bombs.get(k);
+			BBG.Update(mi);
+			if(BBG.getY() > WT.getScreenHeight()) {
+				remove(BBG);
+			}
+			if(ispress == true) {
+				boolean b = BG.isColliding(TES);
+				if(b = true) {
+					remove(BBG);
 					ispress = false;
 				}
 			}
@@ -144,6 +190,7 @@ public class MainView extends View implements Updatable, Drawable{
 		BG1.Draw(C);
 		for (BaseGameObject BG : BL) BG.Draw(C);
 		for (int i = 0; i < Coins.size(); i++) Coins.get(i).Draw(C);
+		for (int i = 0; i < Bombs.size(); i++) Bombs.get(i).Draw(C);
 		Paint P = new Paint();
 		P.setTextSize(100f);
 		P.setARGB(255,255,255,255);

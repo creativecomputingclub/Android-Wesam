@@ -36,6 +36,14 @@ public class ClassicPacer extends Pacer {
 				BGO.setFVY(.8f);
 				break;
 			}
+			case BOMB: {
+				float w = 141;
+				float h = 172;
+				Point P = getLocation(super.NORTH,w,h);
+				BGO = new GlassSphere(MainView.Bomb_Image,P.x,P.y,w,h);
+				BGO.setFVY(.8f);
+				break;
+			}
 		}
 		addToList(BGO);
 	}

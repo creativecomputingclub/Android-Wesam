@@ -18,7 +18,7 @@ public class Pacer implements Updatable, Drawable{
 	float minspeed, maxspeed;
 	public int loc;
 	public int SpawnObect;
-	public static final int COIN = 0, GLASS_SPHERE = 1;
+	public static final int COIN = 0, GLASS_SPHERE = 1, BOMB = 2;
 	public static final int NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3;
 	public Pacer(final Bitmap image, final ArrayList<BaseGameObject> BL, double thr, final float w, final float h) {
 		this.BL = BL;
