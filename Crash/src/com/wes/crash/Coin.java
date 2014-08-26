@@ -2,9 +2,11 @@ package com.wes.crash;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import com.kc.tools.Timer;
 import com.kc.tools.Vector;
+import com.kc.tools.Z;
 
 public class Coin extends BaseGameObject {
 	Vector JumpVector;
@@ -13,8 +15,8 @@ public class Coin extends BaseGameObject {
 	Timer T;
 	boolean HasJumped = false;
 	boolean canbepressed;
-	public Coin(Bitmap Coin,float x, float y, float w, float h, float jvy, float gvy) {
-		super(Coin,x,y,w,h);
+	public Coin(Root root,Bitmap Coin,float x, float y, float w, float h, float jvy, float gvy) {
+		super(root,Coin,x,y,w,h);
 		getAngle = new Vector((float)(Math.random()*Math.PI));
 		getAngle.scale(.8f,1.5f);
 		JumpVector = new Vector(getAngle.getX(),jvy);
@@ -43,5 +45,24 @@ public class Coin extends BaseGameObject {
 	}
 	public void setCanbepressed(boolean canbepressed) {
 		this.canbepressed = canbepressed;
+	}
+	public void doPressLogic() {
+		Rect TES = new Rect((int)root.getPressX(),(int)root.getPressY(),(int)root.getPressX(),(int)root.getPressY());
+		if(root.isIspress() == true) {
+			boolean b = isColliding(TES, 20);
+			if (b == true && isCanbepressed()) {
+				if(Z.score == Z.SCORE_RED_RANDOM) Z.score -= Z.SCORE_RED_DECREASE;
+				else if(Z.score <= Z.SCORE_NORMAL_HIGH) Z.score += Z.SCORE_NORMAL_INCREASE;
+				else if(Z.score >= Z.SCORE_BLUE_LOW && Z.score <= Z.SCORE_BLUE_HIGH) Z.score += Z.SCORE_BLUE_INCREASE;
+				else if(Z.score >= Z.SCORE_GREEN_LOW) Z.score += Z.SCORE_GREEN_INCREASE;
+				setIsdead(true);
+				root.setIspress(false);
+			}
+		}
+	}
+	public void doRemovalLogic() {
+		if (getY() > Z.WT.getScreenHeight()){
+			setIsdead(true);
+		}
 	}
 }

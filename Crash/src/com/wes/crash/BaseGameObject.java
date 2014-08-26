@@ -13,7 +13,10 @@ public class BaseGameObject implements Updatable, Drawable {
 	float x, y, w, h;
 	Vector FrameVector;
 	Rect Coords;
-	public BaseGameObject(Bitmap image, float x, float y, float w, float h) {
+	Root root;
+	boolean isdead;
+	public BaseGameObject(Root root, Bitmap image, float x, float y, float w, float h) {
+		this.root = root;
 		FrameVector = new Vector();
 		this.image = image;
 		this.x = x;
@@ -30,12 +33,15 @@ public class BaseGameObject implements Updatable, Drawable {
 	public void Draw(Canvas C) {
 		C.drawBitmap(image, null,Coords, null);
 	}
-	public boolean isColliding(Rect R) {
-		if(x+w < R.left) return false;
-		else if(R.right < x) return false;
-		else if(R.top > y+h) return false;
-		else if(y > R.bottom) return false;
+	public boolean isColliding(Rect R,int r) {
+		if(x+w < R.left-r) return false;
+		else if(R.right+2*r < x) return false;
+		else if(R.top-r > y+h) return false;
+		else if(y > R.bottom+2*r) return false;
 		return true;
+	}
+	public boolean isColliding(Rect R) {
+		return isColliding(R, 0);
 	}
 	public Bitmap getImage() {
 		return image;
@@ -97,6 +103,18 @@ public class BaseGameObject implements Updatable, Drawable {
 
 	public void setCoords(Rect coords) {
 		Coords = coords;
+	}
+	public void doPressLogic() {
+		
+	}
+	public void doRemovalLogic() {
+		
+	}
+	public boolean isIsdead() {
+		return isdead;
+	}
+	public void setIsdead(boolean isdead) {
+		this.isdead = isdead;
 	}
 	
 }

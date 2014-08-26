@@ -8,8 +8,8 @@ import com.kc.tools.Vector;
 public class StreamCoin extends BaseGameObject {
 	Vector vector;
 	
-	public StreamCoin(Bitmap Stream, float x, float y, float w, float h) {
-		super(Stream, x, y, w, h);
+	public StreamCoin(Root root,Bitmap Stream, float x, float y, float w, float h) {
+		super(root,Stream, x, y, w, h);
 		vector = new Vector(x,y);
 	}
 	public void Update(long mi) {

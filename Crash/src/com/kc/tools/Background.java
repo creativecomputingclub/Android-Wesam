@@ -27,10 +27,10 @@ public class Background {
 		this.Image = Image;
 		CurrentX = 0;
 		CurrentY = 0;
-		ScreenWidth = MainView.WT.ScreenWidth;
-		ImageWidth = MainView.WT.ScreenWidth;
+		ScreenWidth = Z.WT.ScreenWidth;
+		ImageWidth = Z.WT.ScreenWidth;
 		ImageHeight = Image.getHeight();
-		ScreenHeight = MainView.WT.ScreenHeight;
+		ScreenHeight = Z.WT.ScreenHeight;
 		Middle = ImageHeight/2;
 		if (Buffer > Middle) Buffer = (int)Middle;
 		this.Buffer = Buffer;

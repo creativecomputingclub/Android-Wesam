@@ -6,11 +6,11 @@ import android.graphics.Canvas;
 public class Bomb extends BaseGameObject {
 	
 	
-	public Bomb(Bitmap bomb, float x, float y, float w, float h) {
-		super(bomb, x, y, w, h);
+	public Bomb(Root root,Bitmap bomb, float x, float y, float w, float h) {
+		super(root,bomb, x, y, w, h);
 	}
 	public void Update(long mi) {
-		
+		super.Update(mi);
 	}
 	public void Draw(Canvas C) {
 		super.Draw(C);
