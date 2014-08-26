@@ -33,8 +33,9 @@ public class MainView extends View implements Updatable, Drawable{
 	BaseGameObject BG;
 	ClassicPacer Pb, pb2;
 	StreamCoin Sc;
-	float x, y, score;
+	float x, y;
 	boolean ispress;
+	public static int score;
 	public static int SCORE_NORMAL_HIGH = 9;
 	public static int SCORE_BLUE_LOW = 10, SCORE_BLUE_HIGH = 49;
 	public static int SCORE_GREEN_LOW = 50;
@@ -157,13 +158,21 @@ public class MainView extends View implements Updatable, Drawable{
 					float coinx = midx - (coinw/2);
 					float coiny = midy - (coinh/2);	
 					Bitmap Image = null;
-					if(score == SCORE_RED_RANDOM) Image = Red_Coin;
+					boolean RedCoinAppeared = false;
+					if(score == SCORE_RED_RANDOM) {
+						Image = Red_Coin;
+						RedCoinAppeared = true;
+					}
 					else if(score <= SCORE_NORMAL_HIGH) Image = Coin_Image;
 					else if(score >= SCORE_BLUE_LOW && score <= SCORE_BLUE_HIGH) Image = Blue_Coin;
 					else if(score >= SCORE_GREEN_LOW) Image = Green_Coin;
 					Coins.add(new Coin(Image,coinx,coiny,coinw,coinh, -1.5f,.1f));
 					remove(BG);
 					ispress = false;
+					if(RedCoinAppeared == true) {
+						SCORE_RED_RANDOM = (int) (Math.random()*100)*10;
+						RedCoinAppeared = false;
+					}
 				}
 			}
 		}
