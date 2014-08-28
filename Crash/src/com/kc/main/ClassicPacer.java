@@ -37,6 +37,7 @@ public class ClassicPacer extends Pacer {
 				Point P = getLocation(super.NORTH,w,h);
 				BGO = new GlassSphere(root,Z.Sphere_Image,P.x,P.y,w,h);
 				BGO.setFVY(.8f);
+				if (Math.random()*100 >= 80) super.setSpawnObject(BOMB);
 				break;
 			}
 			case BOMB: {
@@ -45,6 +46,7 @@ public class ClassicPacer extends Pacer {
 				Point P = getLocation(super.NORTH,w,h);
 				BGO = new Bomb(root,Z.Bomb_Image,P.x,P.y,w,h);
 				BGO.setFVY(.8f);
+				super.setSpawnObject(GLASS_SPHERE);
 				break;
 			}
 		}

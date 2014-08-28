@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import com.kc.main.ClassicPacer;
 
 public class Root {
-	ClassicPacer pb;
 	ArrayList<BaseGameObject> BaseGameObjects;
 	ArrayList<Coin>Coins;
 	ArrayList<Bomb>Bombs;
@@ -22,13 +21,6 @@ public class Root {
 		for (BaseGameObject BG : BaseGameObjects) BG.Draw(C);
 		for (int i = 0; i < Coins.size(); i++) Coins.get(i).Draw(C);
 		for (int i = 0; i < Bombs.size(); i++) Bombs.get(i).Draw(C);
-	}
-	public ClassicPacer getPb() {
-		return pb;
-	}
-
-	public void setPb(ClassicPacer pb) {
-		this.pb = pb;
 	}
 
 	public ArrayList<BaseGameObject> getBGOS() {

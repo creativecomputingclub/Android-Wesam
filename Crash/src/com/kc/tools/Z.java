@@ -14,4 +14,6 @@ public class Z {
 	public static int SCORE_BLUE_INCREASE = 5;
 	public static int SCORE_GREEN_INCREASE = 10;
 	public static int SCORE_RED_DECREASE = 50;
+	public static int SCORE_BOMB_APPEAR_FIRST = (int) (Math.random()*10);
+	//public static int SCORE_BOMB_APPEAR_SECOND = (int) (Math.random()*10);
 }

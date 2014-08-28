@@ -34,18 +34,19 @@ public final class R {
         public static final int bubble=0x7f020009;
         public static final int cat=0x7f02000a;
         public static final int coin=0x7f02000b;
-        public static final int color_background=0x7f02000c;
-        public static final int dynamite=0x7f02000d;
-        public static final int fbhv=0x7f02000e;
-        public static final int gamestart=0x7f02000f;
-        public static final int gbhv=0x7f020010;
-        public static final int greencoin=0x7f020011;
-        public static final int ic_launcher=0x7f020012;
-        public static final int rbhv=0x7f020013;
-        public static final int rbhv1_new=0x7f020014;
-        public static final int redcoin=0x7f020015;
-        public static final int sample=0x7f020016;
-        public static final int tiledirt=0x7f020017;
+        public static final int coinsprite=0x7f02000c;
+        public static final int color_background=0x7f02000d;
+        public static final int dynamite=0x7f02000e;
+        public static final int fbhv=0x7f02000f;
+        public static final int gamestart=0x7f020010;
+        public static final int gbhv=0x7f020011;
+        public static final int greencoin=0x7f020012;
+        public static final int ic_launcher=0x7f020013;
+        public static final int rbhv=0x7f020014;
+        public static final int rbhv1_new=0x7f020015;
+        public static final int redcoin=0x7f020016;
+        public static final int sample=0x7f020017;
+        public static final int tiledirt=0x7f020018;
     }
     public static final class id {
         public static final int action_settings=0x7f090002;

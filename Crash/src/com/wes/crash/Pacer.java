@@ -10,6 +10,7 @@ import com.kc.inter.Updatable;
 import com.kc.main.MainView;
 import com.kc.tools.ResetTimer;
 import com.kc.tools.Vector;
+import com.kc.tools.Z;
 
 public class Pacer implements Updatable, Drawable{
 	ArrayList<BaseGameObject> BL;
