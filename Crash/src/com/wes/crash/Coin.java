@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.kc.tools.Bouncing;
 import com.kc.tools.Timer;
 import com.kc.tools.Vector;
 import com.kc.tools.Z;
@@ -13,6 +14,7 @@ public class Coin extends BaseGameObject {
 	Vector GravityVector;
 	Vector getAngle;
 	Timer T;
+	Bouncing bounce;
 	boolean HasJumped = false;
 	boolean canbepressed;
 	public Coin(Root root,Bitmap Coin,float x, float y, float w, float h, float jvy, float gvy) {
@@ -24,6 +26,7 @@ public class Coin extends BaseGameObject {
 	}
 	public void Update(long mi) {
 		super.Update(mi);
+		Bouncing.bounce(this, x, w);
 		if (!HasJumped) {
 			FrameVector.add(JumpVector.getX(),JumpVector.getY());
 			HasJumped = true;
