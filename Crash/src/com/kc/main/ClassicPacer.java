@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 
+import com.kc.tools.Timer;
 import com.kc.tools.Z;
 import com.wes.crash.BaseGameObject;
 import com.wes.crash.Bomb;
@@ -15,6 +16,7 @@ import com.wes.crash.Root;
 
 public class ClassicPacer extends Pacer {
 	Root root;
+	float speed = .6f;
 	public ClassicPacer(Root root,Bitmap image, ArrayList<BaseGameObject> BL, double thr,float w, float h) {
 		super(image, BL, thr, w, h);
 		this.root = root;
@@ -36,8 +38,12 @@ public class ClassicPacer extends Pacer {
 				float h = 148;
 				Point P = getLocation(super.NORTH,w,h);
 				BGO = new GlassSphere(root,Z.Sphere_Image,P.x,P.y,w,h);
-				BGO.setFVY(.8f);
+				BGO.setFVY(speed);
 				if (Math.random()*100 >= 80) super.setSpawnObject(BOMB);
+				speed += .01;
+				if (speed >= 2) {
+					speed = 2f;
+				}
 				break;
 			}
 			case BOMB: {

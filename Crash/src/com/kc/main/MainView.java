@@ -41,7 +41,7 @@ public class MainView extends View implements Updatable, Drawable{
 		Z.Sphere_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.bubble);
 		Z.Background_Image = getScaledBitmap(R.drawable.rbhv1_new,Z.WT.getScreenWidth(),2048);
 		BG1 = new Background(Z.Background_Image,400,.0005f);
-		Pb = new ClassicPacer(root,Z.Sphere_Image,root.getBGOS(),500,154f,148f) {
+		Pb = new ClassicPacer(root,Z.Sphere_Image,root.getBGOS(),800,154f,148f) {
 			public void addToList(BaseGameObject BGO) {
 				if (BGO instanceof Coin) {	
 					root.getCoins().add((Coin)BGO);
@@ -55,10 +55,6 @@ public class MainView extends View implements Updatable, Drawable{
 				}
 			}
 		};
-		Pb.setMinspeed(-.5f);
-		Pb.setMaxspeed(-.9f);
-		Pb.setLimit(10);
-		Pb.getT().setThreshold(1000);
 	}
 	public void Update(long mi) {
 		BG1.Update(mi);
