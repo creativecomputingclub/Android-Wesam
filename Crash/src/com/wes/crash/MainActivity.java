@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -39,6 +41,42 @@ public class MainActivity extends Activity {
 	 
 			});
 	}
+	
+	public void addListenerOnButton2() {
+		ib = (Button) findViewById(R.id.button2);
+	 
+			ib.setOnClickListener(new OnClickListener() {
+	 
+				@Override
+				public void onClick(View arg0) {
+					Intent i = new Intent(MainActivity.this,Preferences.class);
+					startActivity(i);
+				}
+	 
+			});
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch(item.getItemId()){
+        case R.id.Preferences:
+        	Intent i = new Intent(MainActivity.this,Preferences.class);
+        	startActivity(i);
+		case R.id.Exit:
+			finish();
+        }
+        return false;
+    }
 	
 	public void onDraw(Canvas C) {
 		//C.drawBitmap(Tile_Dirt, 0, 0, null);

@@ -16,5 +16,15 @@
         android:layout_marginTop="27dp"
         android:background="@drawable/gamestart" />
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/button"
+        android:layout_alignBottom="@+id/button"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="134dp"
+        android:background="@drawable/gamestart" />
+
 </RelativeLayout>
 
