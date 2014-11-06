@@ -7,5 +7,8 @@
         android:key="checkbox"
         android:summary="check this box" />
     
+    <Preference android:title="Camera"
+                android:key="camera"
+                android:summary="Uses front facing camera"/>
 
 </PreferenceScreen>
