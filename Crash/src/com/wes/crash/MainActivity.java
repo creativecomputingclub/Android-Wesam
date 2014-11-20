@@ -13,7 +13,7 @@ import android.widget.Button;
 
 public class MainActivity extends Activity {
 	Intent startGame;
-	Button ib;
+	Button ib1,ib2;
 	View v;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +21,13 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		addListenerOnButton();
+		addListenerOnButton2();
 	}
 	
-	private void setContentView() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void addListenerOnButton() {
-		ib = (Button) findViewById(R.id.button);
+		ib1 = (Button) findViewById(R.id.button);
 	 
-			ib.setOnClickListener(new OnClickListener() {
+			ib1.setOnClickListener(new OnClickListener() {
 	 
 				@Override
 				public void onClick(View arg0) {
@@ -43,13 +39,13 @@ public class MainActivity extends Activity {
 	}
 	
 	public void addListenerOnButton2() {
-		ib = (Button) findViewById(R.id.button2);
+		ib2 = (Button) findViewById(R.id.button2);
 	 
-			ib.setOnClickListener(new OnClickListener() {
+			ib2.setOnClickListener(new OnClickListener() {
 	 
 				@Override
 				public void onClick(View arg0) {
-					Intent i = new Intent(MainActivity.this,Preferences.class);
+					Intent i = new Intent(MainActivity.this,ToTutorial.class);
 					startActivity(i);
 				}
 	 

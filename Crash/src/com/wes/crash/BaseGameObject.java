@@ -15,6 +15,7 @@ public class BaseGameObject implements Updatable, Drawable {
 	Rect Coords;
 	Root root;
 	boolean isdead;
+	boolean notOnScreen;
 	public BaseGameObject(Root root, Bitmap image, float x, float y, float w, float h) {
 		this.root = root;
 		FrameVector = new Vector();
@@ -115,6 +116,12 @@ public class BaseGameObject implements Updatable, Drawable {
 	}
 	public void setIsdead(boolean isdead) {
 		this.isdead = isdead;
+	}
+	public boolean isNotOnScreen() {
+		return notOnScreen;
+	}
+	public void setNotOnScreen(boolean notOnScreen) {
+		this.notOnScreen = notOnScreen;
 	}
 	
 }

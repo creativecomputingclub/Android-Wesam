@@ -13,7 +13,6 @@ import com.kc.inter.Drawable;
 import com.kc.inter.Updatable;
 import com.kc.tools.Background;
 import com.kc.tools.Benchmark;
-import com.kc.tools.Bouncing;
 import com.kc.tools.WinTool;
 import com.kc.tools.Z;
 import com.wes.crash.BaseGameObject;
@@ -22,16 +21,22 @@ import com.wes.crash.Coin;
 import com.wes.crash.GlassSphere;
 import com.wes.crash.R;
 import com.wes.crash.Root;
-public class MainView extends View implements Updatable, Drawable{
+
+public class Tutorial extends View implements Updatable, Drawable {
+	
 	Benchmark BM;
 	Root root;
 	Background BG1;
 	ClassicPacer Pb;
-	public MainView(Context C) {
+	int ballCount, coinCount;
+	float pressedX, pressedY;
+	
+	public Tutorial(Context C) {
 		super(C);
 		root = new Root();
 		BM = new Benchmark();
 		Z.WT = new WinTool(C);
+		ballCount = coinCount = 0;
 		Z.score = 0;
 		Z.Coin_Image = BitmapFactory.decodeResource(this.getResources(), R.drawable.coin);
 		Z.Red_Coin = BitmapFactory.decodeResource(this.getResources(), R.drawable.redcoin);
@@ -57,32 +62,45 @@ public class MainView extends View implements Updatable, Drawable{
 			}
 		};
 	}
+	
 	public void Update(long mi) {
-		BG1.Update(mi);
-		Pb.Update(mi);
-		for (int j = root.getCoins().size()-1; j > -1; j--) {
-			Coin C = root.getCoins().get(j);
-			C.Update(mi);
-			C.doPressLogic();
-			C.doRemovalLogic();
-			if (C.isIsdead()) root.getCoins().remove(C);
-			if (C.isNotOnScreen()) root.getBGOS().remove(C);
-		}
-		for (int i = root.getBGOS().size()-1; i > -1; i--) {
-			BaseGameObject BG = root.getBGOS().get(i);
-			BG.Update(mi);
-			BG.doPressLogic();
-			BG.doRemovalLogic();
-			if (BG.isIsdead()) root.getBGOS().remove(BG);
-			if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
-		}
-		for (int i = root.getBombs().size()-1; i > -1; i--) {
-			Bomb BG = root.getBombs().get(i);
-			BG.Update(mi);
-			BG.doPressLogic();
-			BG.doRemovalLogic();
-			if (BG.isIsdead()) root.getBombs().remove(BG);
-			if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
+		if(ballCount != 1){
+			BG1.Update(mi);
+			Pb.Update(mi);
+			for (int j = root.getCoins().size()-1; j > -1; j--) {
+				Coin C = root.getCoins().get(j);
+				C.Update(mi);
+				C.doPressLogic();
+				C.doRemovalLogic();
+				if (C.isNotOnScreen()) root.getCoins().remove(C);
+				if (C.isIsdead()) {
+					root.getCoins().remove(C);
+					pressedX = root.getPressX();
+					pressedY = root.getPressY();
+					coinCount++;
+				}
+			}
+			for (int i = root.getBGOS().size()-1; i > -1; i--) {
+				BaseGameObject BG = root.getBGOS().get(i);
+				BG.Update(mi);
+				BG.doPressLogic();
+				BG.doRemovalLogic();
+				if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
+				if (BG.isIsdead()){
+					root.getBGOS().remove(BG);
+					pressedX = root.getPressX();
+					pressedY = root.getPressY();
+					ballCount++;
+				}
+			}
+			for (int i = root.getBombs().size()-1; i > -1; i--) {
+				Bomb BG = root.getBombs().get(i);
+				BG.Update(mi);
+				BG.doPressLogic();
+				BG.doRemovalLogic();
+				if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
+				if (BG.isIsdead()) root.getBombs().remove(BG);
+			}
 		}
 	}
 	public void Draw(Canvas C) {
@@ -92,9 +110,20 @@ public class MainView extends View implements Updatable, Drawable{
 		BG1.Draw(C);
 		root.draw(C);
 		Paint P = new Paint();
+		Paint Ps = new Paint();
 		P.setTextSize(100f);
 		P.setARGB(255,255,255,255);
+		Ps.setTextSize(50f);
+		Ps.setARGB(255,255,255,255);
 		C.drawText(""+Z.score,100,100,P);
+		C.drawText("Touch the Sphere", 700, 100, P);
+		if(ballCount == 1){
+			 C.drawText("Now a Coin will pop out and you are", Z.WT.getScreenWidth()/4, Z.WT.getScreenHeight()/2, Ps);
+			 C.drawText("suppose to hit that coin in order to get a point", Z.WT.getScreenWidth()/4, Z.WT.getScreenHeight()/2+60, Ps);
+			 if(root.isIspress() == true){
+				 ballCount =2;
+			 }
+		}
 	}
 	public void onDraw(Canvas C) {
 		super.onDraw(C);

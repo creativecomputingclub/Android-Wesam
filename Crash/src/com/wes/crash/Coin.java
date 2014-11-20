@@ -65,7 +65,7 @@ public class Coin extends BaseGameObject {
 	}
 	public void doRemovalLogic() {
 		if (getY() > Z.WT.getScreenHeight()){
-			setIsdead(true);
+			setNotOnScreen(true);
 		}
 	}
 }
