@@ -1,6 +1,7 @@
 package com.kc.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -20,15 +21,20 @@ import com.wes.crash.BaseGameObject;
 import com.wes.crash.Bomb;
 import com.wes.crash.Coin;
 import com.wes.crash.GlassSphere;
+import com.wes.crash.MainActivity;
 import com.wes.crash.R;
 import com.wes.crash.Root;
+import com.wes.crash.ToMainView;
 public class MainView extends View implements Updatable, Drawable{
 	Benchmark BM;
 	Root root;
 	Background BG1;
 	ClassicPacer Pb;
+	int deathCount = 0;
+	Context mainActivity;
 	public MainView(Context C) {
 		super(C);
+		mainActivity = C;
 		root = new Root();
 		BM = new Benchmark();
 		Z.WT = new WinTool(C);
@@ -74,7 +80,10 @@ public class MainView extends View implements Updatable, Drawable{
 			BG.doPressLogic();
 			BG.doRemovalLogic();
 			if (BG.isIsdead()) root.getBGOS().remove(BG);
-			if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
+			if (BG.isNotOnScreen()){
+				deathCount++;
+				root.getBGOS().remove(BG);
+			}
 		}
 		for (int i = root.getBombs().size()-1; i > -1; i--) {
 			Bomb BG = root.getBombs().get(i);
@@ -83,6 +92,9 @@ public class MainView extends View implements Updatable, Drawable{
 			BG.doRemovalLogic();
 			if (BG.isIsdead()) root.getBombs().remove(BG);
 			if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
+		}
+		if(deathCount == 20){
+			onDead();
 		}
 	}
 	public void Draw(Canvas C) {
@@ -102,6 +114,10 @@ public class MainView extends View implements Updatable, Drawable{
 		BM.update();
 		Update(BM.getMillisecondsElapsed());
 		Draw(C);
+	}
+	public void onDead(){
+		Intent i = new Intent(mainActivity,MainActivity.class);
+		mainActivity.startActivity(i);
 	}
 	public boolean onTouchEvent(MotionEvent event) {
 		root.setPressX(event.getX());

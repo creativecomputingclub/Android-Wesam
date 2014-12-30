@@ -64,7 +64,7 @@ public class Tutorial extends View implements Updatable, Drawable {
 	}
 	
 	public void Update(long mi) {
-		if(ballCount != 1){
+		if(ballCount != 1 && coinCount != 1){
 			BG1.Update(mi);
 			Pb.Update(mi);
 			for (int j = root.getCoins().size()-1; j > -1; j--) {
@@ -123,6 +123,13 @@ public class Tutorial extends View implements Updatable, Drawable {
 			 if(root.isIspress() == true){
 				 ballCount =2;
 			 }
+			 if(coinCount == 1){
+				C.drawText("Now you will get a point for each coin", Z.WT.getScreenWidth()/4, Z.WT.getScreenHeight()/2, Ps);
+				C.drawText("that you touch.", Z.WT.getScreenWidth()/4, Z.WT.getScreenHeight()/2+60, Ps);
+				if(root.isIspress() == true){
+					 ballCount =2;
+				}
+			 }	
 		}
 	}
 	public void onDraw(Canvas C) {
