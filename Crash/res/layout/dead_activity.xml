@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context=".DeadActivity" >
+
+    <TextView
+        android:id="@+id/youLose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:text="@string/you_lose"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/youLose"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/playAgain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/quit"
+        android:layout_alignBottom="@+id/quit"
+        android:layout_marginLeft="24dp"
+        android:layout_toRightOf="@+id/score"
+        android:text="@string/play_again_" />
+
+    <Button
+        android:id="@+id/quit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/score"
+        android:layout_marginRight="36dp"
+        android:layout_marginTop="32dp"
+        android:layout_toLeftOf="@+id/score"
+        android:text="Main Menu" />
+
+    <Button
+        android:id="@+id/deadSetting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playAgain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="Settings" />
+
+</RelativeLayout>

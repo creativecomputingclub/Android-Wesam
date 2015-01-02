@@ -14,7 +14,7 @@ import android.widget.ViewSwitcher;
 
 public class MainActivity extends Activity {
 	Intent startGame;
-	Button ib1,ib2;
+	Button ib1,ib2,ib3;
 	View v;
 	
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		addListenerOnButton();
 		addListenerOnButton2();
+		addListenerOnButton3();
 	}
 	
 	public void addListenerOnButton() {
@@ -47,6 +48,20 @@ public class MainActivity extends Activity {
 				@Override
 				public void onClick(View arg0) {
 					Intent i = new Intent(MainActivity.this,ToTutorial.class);
+					startActivity(i);
+				}
+	 
+			});
+	}
+	
+	public void addListenerOnButton3() {
+		ib3 = (Button) findViewById(R.id.button3);
+	 
+			ib3.setOnClickListener(new OnClickListener() {
+	 
+				@Override
+				public void onClick(View arg0) {
+					Intent i = new Intent(MainActivity.this,SettingActivity.class);
 					startActivity(i);
 				}
 	 

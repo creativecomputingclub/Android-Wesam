@@ -1,6 +1,6 @@
 package com.wes.crash;
 
-import com.kc.tools.Z;
+import com.kc.main.MainView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,23 +9,17 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 
-public class DeadActivity extends Activity{
-	Button ib1,ib2,ib3;
+public class SettingActivity extends Activity {
+	Button ib1,ib2;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.dead_activity);
-		addListenerOnButton();
-		addListenerOnButton2();
-		addListenerOnButton3();
-		TextView myTextView = (TextView) findViewById(R.id.score); 
-		myTextView.setText("Your score is " + Z.score);
+		setContentView(R.layout.setting_activity);
 	}
 	
-	public void addListenerOnButton() {
+	/*public void addListenerOnButton() {
 		ib1 = (Button) findViewById(R.id.playAgain);
 	 
 			ib1.setOnClickListener(new OnClickListener() {
@@ -51,19 +45,6 @@ public class DeadActivity extends Activity{
 				}
 	 
 			});
-	}
-	
-	public void addListenerOnButton3() {
-		ib3 = (Button) findViewById(R.id.deadSetting);
-	 
-			ib3.setOnClickListener(new OnClickListener() {
-	 
-				@Override
-				public void onClick(View arg0) {
-					Intent i = new Intent(DeadActivity.this,SettingActivity.class);
-					startActivity(i);
-				}
-	 
-			});
-	}
+	}*/
+
 }

@@ -20,6 +20,7 @@ import com.kc.tools.Z;
 import com.wes.crash.BaseGameObject;
 import com.wes.crash.Bomb;
 import com.wes.crash.Coin;
+import com.wes.crash.DeadActivity;
 import com.wes.crash.GlassSphere;
 import com.wes.crash.MainActivity;
 import com.wes.crash.R;
@@ -64,36 +65,38 @@ public class MainView extends View implements Updatable, Drawable{
 		};
 	}
 	public void Update(long mi) {
-		BG1.Update(mi);
-		Pb.Update(mi);
-		for (int j = root.getCoins().size()-1; j > -1; j--) {
-			Coin C = root.getCoins().get(j);
-			C.Update(mi);
-			C.doPressLogic();
-			C.doRemovalLogic();
-			if (C.isIsdead()) root.getCoins().remove(C);
-			if (C.isNotOnScreen()) root.getBGOS().remove(C);
-		}
-		for (int i = root.getBGOS().size()-1; i > -1; i--) {
-			BaseGameObject BG = root.getBGOS().get(i);
-			BG.Update(mi);
-			BG.doPressLogic();
-			BG.doRemovalLogic();
-			if (BG.isIsdead()) root.getBGOS().remove(BG);
-			if (BG.isNotOnScreen()){
-				deathCount++;
-				root.getBGOS().remove(BG);
+		if(deathCount != 10){
+			BG1.Update(mi);
+			Pb.Update(mi);
+			for (int j = root.getCoins().size()-1; j > -1; j--) {
+				Coin C = root.getCoins().get(j);
+				C.Update(mi);
+				C.doPressLogic();
+				C.doRemovalLogic();
+				if (C.isIsdead()) root.getCoins().remove(C);
+				if (C.isNotOnScreen()) root.getBGOS().remove(C);
+			}
+			for (int i = root.getBGOS().size()-1; i > -1; i--) {
+				BaseGameObject BG = root.getBGOS().get(i);
+				BG.Update(mi);
+				BG.doPressLogic();
+				BG.doRemovalLogic();
+				if (BG.isIsdead()) root.getBGOS().remove(BG);
+				if (BG.isNotOnScreen()){
+					deathCount++;
+					root.getBGOS().remove(BG);
+				}
+			}
+			for (int i = root.getBombs().size()-1; i > -1; i--) {
+				Bomb BG = root.getBombs().get(i);
+				BG.Update(mi);
+				BG.doPressLogic();
+				BG.doRemovalLogic();
+				if (BG.isIsdead()) root.getBombs().remove(BG);
+				if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
 			}
 		}
-		for (int i = root.getBombs().size()-1; i > -1; i--) {
-			Bomb BG = root.getBombs().get(i);
-			BG.Update(mi);
-			BG.doPressLogic();
-			BG.doRemovalLogic();
-			if (BG.isIsdead()) root.getBombs().remove(BG);
-			if (BG.isNotOnScreen()) root.getBGOS().remove(BG);
-		}
-		if(deathCount == 20){
+		if(deathCount == 10){
 			onDead();
 		}
 	}
@@ -107,6 +110,7 @@ public class MainView extends View implements Updatable, Drawable{
 		P.setTextSize(100f);
 		P.setARGB(255,255,255,255);
 		C.drawText(""+Z.score,100,100,P);
+		C.drawText(""+deathCount,1500,100,P);
 	}
 	public void onDraw(Canvas C) {
 		super.onDraw(C);
@@ -116,7 +120,7 @@ public class MainView extends View implements Updatable, Drawable{
 		Draw(C);
 	}
 	public void onDead(){
-		Intent i = new Intent(mainActivity,MainActivity.class);
+		Intent i = new Intent(mainActivity,DeadActivity.class);
 		mainActivity.startActivity(i);
 	}
 	public boolean onTouchEvent(MotionEvent event) {
